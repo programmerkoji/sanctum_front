@@ -1,13 +1,17 @@
 import React, { FormEvent, useState } from 'react'
 import { loginUser } from '../hooks/loginUser';
+import { useAppDispatch } from '../app/hooks';
+import { login } from '../features/userSlice';
 
 export const Login = () => {
+	const dispatch = useAppDispatch();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
-	const handleLogin = (e: FormEvent<HTMLFormElement>) => {
+	const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-    loginUser(email, password);
+    const response = await loginUser(email, password);
+		dispatch(login(response))
 	}
 
 	return (
